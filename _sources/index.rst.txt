@@ -3,19 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Nucleo boards - Basics
-######################
+Nucleo boards - Advanced
+########################
 
 .. caution::
    This application and its documentation website are still works in progress
 
-**Nucleo Basics** is a complete set of tutorials to learn the basics of **Nucleo board** programmation with the **MBED** compiler.
+**Nucleo Advanced** is a complete set of tutorials to learn advanced use of microcontrollers for signal processing and digital control. Tutorials are based on **Nucleo board** programmation with the **MBED** compiler.
 
-The GitHub repository of this project : `Nucleo Basics <https://github.com/IOGS-LEnsE-training/nucleo-basics>`_
+The GitHub repository of this project : `Nucleo Advanced <https://github.com/IOGS-LEnsE-training/nucleo-advanced>`_
 
 
-GUI Tutorials
-*************
+Advanced concepts categories
+****************************
 
 .. toctree::
    :maxdepth: 1
