@@ -1,3 +1,0 @@
-Signal Processing / Digital Filters
-###################################
-
