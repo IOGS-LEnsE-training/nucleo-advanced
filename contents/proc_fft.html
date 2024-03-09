@@ -7,7 +7,7 @@
   <title>Signal Processing / Real-time FFT &mdash; Nucleo Advanced 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/lense-training.css?v=5fb7c9f9" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/lense-training.css?v=69701ec4" />
       <link rel="stylesheet" type="text/css" href="../_static/css/links.css?v=7a4609b2" />
 
   
@@ -58,14 +58,14 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="generate.html">     Generate</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="process.html">     Process</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="proc_filters.html">     Digital Filters Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proc_dsp.html">     DSP basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proc_samp.html">     Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_mean.html">     Moving Average</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_fir.html">     FIR Filters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_iir.html">     IIR Filters</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">     Real-time FFT</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#fast-fourier-transform-vs-fourier-transform">Fast Fourier Transform vs Fourier transform</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fourier-transform-calculation">Fourier Transform calculation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sampling-a-signal">Sampling a signal</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#dft-calculation">DFT calculation</a></li>
 </ul>
 </li>
@@ -75,6 +75,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#fft-with-nucleo">FFT with Nucleo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#algorithm">Algorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#creating-an-mbed6-project">Creating an MBED6 project</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#cmsis-dsp-library">CMSIS-DSP library</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#adding-a-mbedignore-file">Adding a .mbedignore file</a></li>
@@ -122,24 +123,18 @@
              
   <section id="signal-processing-real-time-fft">
 <h1>Signal Processing / Real-time FFT<a class="headerlink" href="#signal-processing-real-time-fft" title="Link to this heading"></a></h1>
+<p>This section requires mastering the concepts of <a class="reference internal" href="proc_samp.html#proc-samp"><span class="std std-ref">sampling</span></a> and <a class="reference internal" href="proc_dsp.html#proc-dsp"><span class="std std-ref">DSP</span></a>.</p>
 <section id="fast-fourier-transform-vs-fourier-transform">
 <h2>Fast Fourier Transform vs Fourier transform<a class="headerlink" href="#fast-fourier-transform-vs-fourier-transform" title="Link to this heading"></a></h2>
-<p>The <strong>Fast Fourier Transform</strong> (FFT) is an algorithm that computes the <strong>Discrete Fourier Transform</strong> (DFT) of a sampled signal. By breaking down a signal into its constituent frequencies, FFT enables analysis and processing in various fields such as signal processing, communications, and image processing.</p>
+<p>The interest in the <strong>Fourier transform</strong> lies in its ability to analyze and manipulate signals in various domains. By breaking down a signal into its constituent frequencies, it enables analysis and processing in various fields such as signal processing, communications, and image processing.</p>
+<p>The <strong>Fast Fourier Transform</strong> (FFT) is an algorithm that computes the <strong>Discrete Fourier Transform</strong> (DFT) of a sampled signal.</p>
 <p><abbr title="Fast Fourier Transform">FFT</abbr> transforms a signal from its time (or spatial - for images) domain into the frequency domain. It accomplishes this by recursively dividing the DFT into smaller DFTs, significantly reducing computation time compared to the standard DFT calculation, making it a fundamental tool for spectral analysis and signal processing applications.</p>
 <section id="fourier-transform-calculation">
 <h3>Fourier Transform calculation<a class="headerlink" href="#fourier-transform-calculation" title="Link to this heading"></a></h3>
 <p>The <strong>Fourier transform</strong> of a function <span class="math notranslate nohighlight">\(f(t)\)</span> is given by the following formula:</p>
 <div class="math notranslate nohighlight">
 \[\hat{f}(\omega) =  \mathcal{F}\{f(t)\}(\omega) = \int_{-\infty}^{\infty} f(t) \cdot e^{-i\omega t} \, dt\]</div>
-</section>
-<section id="sampling-a-signal">
-<h3>Sampling a signal<a class="headerlink" href="#sampling-a-signal" title="Link to this heading"></a></h3>
-<p>To obtain the FFT of a function <span class="math notranslate nohighlight">\(f(t)\)</span>, this function must be <strong>sampled</strong> at a specific frequency called <strong>sampling frequency</strong>, or <span class="math notranslate nohighlight">\(F_S\)</span>. We can also use the sampling period <span class="math notranslate nohighlight">\(T_S = F_S^{-1}\)</span>.</p>
-<p>Sampling a function <span class="math notranslate nohighlight">\(f(t)\)</span> on a regular grid means representing the continuous function by a discrete set of function values <span class="math notranslate nohighlight">\(f(t_1)\)</span>, <span class="math notranslate nohighlight">\(f(t_2)\)</span>, <span class="math notranslate nohighlight">\(f(t_n)\)</span>, … where <span class="math notranslate nohighlight">\(t_1 = 1 \cdot T_S\)</span>, <span class="math notranslate nohighlight">\(t_2 = 2 \cdot T_S\)</span>, <span class="math notranslate nohighlight">\(t_n = n \cdot T_S\)</span>.</p>
-<p>Samples can be defined with the following formula :</p>
-<div class="math notranslate nohighlight">
-\[x[n] = f(t_n) = f(n \dot T_S)\]</div>
-<p>To perfectly</p>
+<p>Fourier transforms have a lot of remarkable properties. These properties are not addressed in this document, but you can find a lot of ressources on the Internet.</p>
 </section>
 <section id="dft-calculation">
 <h3>DFT calculation<a class="headerlink" href="#dft-calculation" title="Link to this heading"></a></h3>
@@ -185,6 +180,14 @@ The CMSIS-DSP library includes:
 </section>
 <section id="fft-with-nucleo">
 <h2>FFT with Nucleo<a class="headerlink" href="#fft-with-nucleo" title="Link to this heading"></a></h2>
+<section id="algorithm">
+<h3>Algorithm<a class="headerlink" href="#algorithm" title="Link to this heading"></a></h3>
+<p>On cherche ici à calculer le spectre d’un signal analogique à l’aide d’une carte Nucléo.</p>
+<p>Il est alors nécessaire d’utiliser une acquisition du signal d’entrée analogique, à un rythme régulier, compatible avec le critère de Shannon. La programmation de ces cartes par le biais du système d’exploitation embarqué MBED limite énormément les capacité d’échantillonnage (temps de conversion autour de 25us). Ici, on utilise un Ticker qui appelle la fonction sample à intervalle régulier.</p>
+<p>Les éléments convertis, sur une période donnée, sont alors stockées dans un tableau. Ici, on récupère 256 éléments, dans le tableau Input à un rythme de 40us chacun (fréquence de 25 kHz). Pour optimiser les calculs, il est préférable d’utiliser un nombre d’éléments qui est une puissance de 2, l’ensemble des données et des éléments séquentiels d’un microcontroleur fonctionnant en binaire.</p>
+<p>Vient ensuite la partie calculatoire où ici on utilise un algorithme particulier de calcul de la transformée de Fourier appelé FFT (Fast Fourier Transform). Cet algorithme est déjà implémenté dans la bibliothèque dsp.h de MBED. Il se fait dans la partie principale du code mais n’est exécuté que lorsque le sémaphore trig n’est pas bloqué par l’échantillonnage des N valeurs.</p>
+<p>Enfin, l’affichage se fait par l’intermédiaire d’un convertisseur numérique-analogique à un rythme de 1 échantillon toutes les 10us environ. Une première impulsion à 3.3V de durée 20us permet de synchroniser l’affichage. Puis les différentes valeurs du spectre sont régulièrement converties par le CNA.</p>
+</section>
 <section id="creating-an-mbed6-project">
 <h3>Creating an MBED6 project<a class="headerlink" href="#creating-an-mbed6-project" title="Link to this heading"></a></h3>
 </section>

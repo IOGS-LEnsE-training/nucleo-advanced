@@ -1,10 +1,16 @@
 Signal Processing / Real-time FFT
 #################################
 
+This section requires mastering the concepts of :ref:`sampling <proc_samp>` and :ref:`DSP <proc_dsp>`.
+
+
+
 Fast Fourier Transform vs Fourier transform
 *******************************************
 
-The **Fast Fourier Transform** (FFT) is an algorithm that computes the **Discrete Fourier Transform** (DFT) of a sampled signal. By breaking down a signal into its constituent frequencies, FFT enables analysis and processing in various fields such as signal processing, communications, and image processing.
+The interest in the **Fourier transform** lies in its ability to analyze and manipulate signals in various domains. By breaking down a signal into its constituent frequencies, it enables analysis and processing in various fields such as signal processing, communications, and image processing.
+
+The **Fast Fourier Transform** (FFT) is an algorithm that computes the **Discrete Fourier Transform** (DFT) of a sampled signal. 
 
 :abbr:`FFT (Fast Fourier Transform)` transforms a signal from its time (or spatial - for images) domain into the frequency domain. It accomplishes this by recursively dividing the DFT into smaller DFTs, significantly reducing computation time compared to the standard DFT calculation, making it a fundamental tool for spectral analysis and signal processing applications.
 
@@ -16,21 +22,8 @@ The **Fourier transform** of a function :math:`f(t)` is given by the following f
 .. math:: 
 
 	\hat{f}(\omega) =  \mathcal{F}\{f(t)\}(\omega) = \int_{-\infty}^{\infty} f(t) \cdot e^{-i\omega t} \, dt
-
-Sampling a signal
-=================
-
-To obtain the FFT of a function :math:`f(t)`, this function must be **sampled** at a specific frequency called **sampling frequency**, or :math:`F_S`. We can also use the sampling period :math:`T_S = F_S^{-1}`.
-
-Sampling a function :math:`f(t)` on a regular grid means representing the continuous function by a discrete set of function values :math:`f(t_1)`, :math:`f(t_2)`, :math:`f(t_n)`, ... where :math:`t_1 = 1 \cdot T_S`, :math:`t_2 = 2 \cdot T_S`, :math:`t_n = n \cdot T_S`.
-
-Samples can be defined with the following formula : 
-
-.. math::
 	
-	x[n] = f(t_n) = f(n \dot T_S)
-	
-To perfectly 
+Fourier transforms have a lot of remarkable properties. These properties are not addressed in this document, but you can find a lot of ressources on the Internet.
 
 
 DFT calculation
@@ -89,6 +82,20 @@ The CMSIS-DSP library includes:
 
 FFT with Nucleo
 ***************
+
+Algorithm
+=========
+
+On cherche ici à calculer le spectre d’un signal analogique à l’aide d’une carte Nucléo.
+
+Il est alors nécessaire d’utiliser une acquisition du signal d’entrée analogique, à un rythme régulier, compatible avec le critère de Shannon. La programmation de ces cartes par le biais du système d’exploitation embarqué MBED limite énormément les capacité d’échantillonnage (temps de conversion autour de 25us). Ici, on utilise un Ticker qui appelle la fonction sample à intervalle régulier.
+
+Les éléments convertis, sur une période donnée, sont alors stockées dans un tableau. Ici, on récupère 256 éléments, dans le tableau Input à un rythme de 40us chacun (fréquence de 25 kHz). Pour optimiser les calculs, il est préférable d’utiliser un nombre d’éléments qui est une puissance de 2, l’ensemble des données et des éléments séquentiels d’un microcontroleur fonctionnant en binaire.
+
+Vient ensuite la partie calculatoire où ici on utilise un algorithme particulier de calcul de la transformée de Fourier appelé FFT (Fast Fourier Transform). Cet algorithme est déjà implémenté dans la bibliothèque dsp.h de MBED. Il se fait dans la partie principale du code mais n’est exécuté que lorsque le sémaphore trig n’est pas bloqué par l’échantillonnage des N valeurs.
+
+Enfin, l’affichage se fait par l’intermédiaire d’un convertisseur numérique-analogique à un rythme de 1 échantillon toutes les 10us environ. Une première impulsion à 3.3V de durée 20us permet de synchroniser l’affichage. Puis les différentes valeurs du spectre sont régulièrement converties par le CNA.
+
 
 Creating an MBED6 project
 =========================
