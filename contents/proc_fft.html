@@ -69,11 +69,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#dft-calculation">DFT calculation</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#digital-signal-processing-in-microcontrollers">Digital Signal Processing in microcontrollers</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#data-types">Data types</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cmsis-library">CMSIS library</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#sampling-and-fft-algorithm">Sampling and FFT algorithm</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fft-with-nucleo">FFT with Nucleo</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#algorithm">Algorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#creating-an-mbed6-project">Creating an MBED6 project</a></li>
@@ -143,50 +139,19 @@
 \[X[k] = \sum_{n=0}^{N-1} x[n] \cdot e^{-i\frac{2\pi}{N} kn}, \quad k = 0, 1, \ldots, N-1\]</div>
 </section>
 </section>
-<section id="digital-signal-processing-in-microcontrollers">
-<h2>Digital Signal Processing in microcontrollers<a class="headerlink" href="#digital-signal-processing-in-microcontrollers" title="Link to this heading"></a></h2>
-<p>A <abbr title="Digital Signal Processor">DSP</abbr> is a specialized microprocessor designed to efficiently manipulate digital signals in real-time. It excels in tasks like filtering, modulation, and compression, crucial in audio, video, and telecommunications. Unlike general-purpose processors, DSPs are optimized for numerical calculations and possess dedicated hardware to accelerate signal processing algorithms.</p>
-<p>Some microcontrollers, like certain from the <em>STM32</em> family, include that kind of specific calculation core.</p>
-<section id="data-types">
-<h3>Data types<a class="headerlink" href="#data-types" title="Link to this heading"></a></h3>
-<p>DSP operations use <strong>digital data</strong>, coming from the sampling of a signal in the case of signal processing. It can use either floating-point or fixed-point formats</p>
-</section>
-<section id="cmsis-library">
-<h3>CMSIS library<a class="headerlink" href="#cmsis-library" title="Link to this heading"></a></h3>
-<p><a class="reference external" href="https://www.st.com/resource/en/application_note/dm00273990-digital-signal-processing-for-stm32-microcontrollers-using-cmsis-stmicroelectronics.pdf">https://www.st.com/resource/en/application_note/dm00273990-digital-signal-processing-for-stm32-microcontrollers-using-cmsis-stmicroelectronics.pdf</a></p>
-<p><a class="reference external" href="https://web.cs.ucdavis.edu/~okreylos/PhDStudies/Winter2000/SamplingTheory.html#:~:text=Sampling%20a%20function%20f(x,cw%2C%20see%20Figure%205">https://web.cs.ucdavis.edu/~okreylos/PhDStudies/Winter2000/SamplingTheory.html#:~:text=Sampling%20a%20function%20f(x,cw%2C%20see%20Figure%205</a>.</p>
-<p><a class="reference external" href="http://lense.institutoptique.fr/nucleo-obtenir-le-spectre-dun-signal-en-temps-reel-4/">http://lense.institutoptique.fr/nucleo-obtenir-le-spectre-dun-signal-en-temps-reel-4/</a></p>
-<p>The Arm Cortex® Microcontroller Software Interface Standard (CMSIS) is a
-vendor-independent hardware abstraction layer for all Cortex® processor based devices.
-CMSIS has been developed by Arm® in conjunction with silicon, tools and middleware
-partners.
-The idea behind CMSIS is to provide a consistent and simple software interface to the
-processor for interface peripherals, real-time operating systems, and middleware,
-simplifying software re -use, reducing the learning curve for new microcontroller
-developments and reducing the time to market for new devices.
-CMSIS library comes with ST firmware under DriversCMSIS.
-The CMSIS-DSP library includes:
-• Basic mathematical functions with vector operations
-• Fast mathematical functions, like sine and cosine
-• Complex mathematical functions like calculating magnitude
-• Filtering functions like FIR or IIR
-• Matrix computing functions
-• Transform functions like FFT
-• Controller functions like PID controller
-• Statistical functions like calculating minimum or maximum
-• Support functions like converting from one format to another
-• Interpolation functions</p>
-</section>
-</section>
-<section id="fft-with-nucleo">
-<h2>FFT with Nucleo<a class="headerlink" href="#fft-with-nucleo" title="Link to this heading"></a></h2>
-<section id="algorithm">
-<h3>Algorithm<a class="headerlink" href="#algorithm" title="Link to this heading"></a></h3>
+<section id="sampling-and-fft-algorithm">
+<h2>Sampling and FFT algorithm<a class="headerlink" href="#sampling-and-fft-algorithm" title="Link to this heading"></a></h2>
 <p>On cherche ici à calculer le spectre d’un signal analogique à l’aide d’une carte Nucléo.</p>
 <p>Il est alors nécessaire d’utiliser une acquisition du signal d’entrée analogique, à un rythme régulier, compatible avec le critère de Shannon. La programmation de ces cartes par le biais du système d’exploitation embarqué MBED limite énormément les capacité d’échantillonnage (temps de conversion autour de 25us). Ici, on utilise un Ticker qui appelle la fonction sample à intervalle régulier.</p>
 <p>Les éléments convertis, sur une période donnée, sont alors stockées dans un tableau. Ici, on récupère 256 éléments, dans le tableau Input à un rythme de 40us chacun (fréquence de 25 kHz). Pour optimiser les calculs, il est préférable d’utiliser un nombre d’éléments qui est une puissance de 2, l’ensemble des données et des éléments séquentiels d’un microcontroleur fonctionnant en binaire.</p>
 <p>Vient ensuite la partie calculatoire où ici on utilise un algorithme particulier de calcul de la transformée de Fourier appelé FFT (Fast Fourier Transform). Cet algorithme est déjà implémenté dans la bibliothèque dsp.h de MBED. Il se fait dans la partie principale du code mais n’est exécuté que lorsque le sémaphore trig n’est pas bloqué par l’échantillonnage des N valeurs.</p>
 <p>Enfin, l’affichage se fait par l’intermédiaire d’un convertisseur numérique-analogique à un rythme de 1 échantillon toutes les 10us environ. Une première impulsion à 3.3V de durée 20us permet de synchroniser l’affichage. Puis les différentes valeurs du spectre sont régulièrement converties par le CNA.</p>
+</section>
+<section id="fft-with-nucleo">
+<h2>FFT with Nucleo<a class="headerlink" href="#fft-with-nucleo" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="http://lense.institutoptique.fr/nucleo-obtenir-le-spectre-dun-signal-en-temps-reel-4/">http://lense.institutoptique.fr/nucleo-obtenir-le-spectre-dun-signal-en-temps-reel-4/</a></p>
+<section id="algorithm">
+<h3>Algorithm<a class="headerlink" href="#algorithm" title="Link to this heading"></a></h3>
 </section>
 <section id="creating-an-mbed6-project">
 <h3>Creating an MBED6 project<a class="headerlink" href="#creating-an-mbed6-project" title="Link to this heading"></a></h3>

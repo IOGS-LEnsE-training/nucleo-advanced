@@ -4,7 +4,6 @@ Signal Processing / Real-time FFT
 This section requires mastering the concepts of :ref:`sampling <proc_samp>` and :ref:`DSP <proc_dsp>`.
 
 
-
 Fast Fourier Transform vs Fourier transform
 *******************************************
 
@@ -36,55 +35,8 @@ Based on this sampling, the :abbr:`DFT (Discrete Fourier Transform)` can be calc
 	X[k] = \sum_{n=0}^{N-1} x[n] \cdot e^{-i\frac{2\pi}{N} kn}, \quad k = 0, 1, \ldots, N-1
 
 
-Digital Signal Processing in microcontrollers
-*********************************************
-
-A :abbr:`DSP (Digital Signal Processor)` is a specialized microprocessor designed to efficiently manipulate digital signals in real-time. It excels in tasks like filtering, modulation, and compression, crucial in audio, video, and telecommunications. Unlike general-purpose processors, DSPs are optimized for numerical calculations and possess dedicated hardware to accelerate signal processing algorithms.
-
-Some microcontrollers, like certain from the *STM32* family, include that kind of specific calculation core.
-
-Data types
-==========
-
-DSP operations use **digital data**, coming from the sampling of a signal in the case of signal processing. It can use either floating-point or fixed-point formats
-
-CMSIS library
-=============
-
-https://www.st.com/resource/en/application_note/dm00273990-digital-signal-processing-for-stm32-microcontrollers-using-cmsis-stmicroelectronics.pdf
-
-https://web.cs.ucdavis.edu/~okreylos/PhDStudies/Winter2000/SamplingTheory.html#:~:text=Sampling%20a%20function%20f(x,cw%2C%20see%20Figure%205.
-
-http://lense.institutoptique.fr/nucleo-obtenir-le-spectre-dun-signal-en-temps-reel-4/
-
-The Arm Cortex® Microcontroller Software Interface Standard (CMSIS) is a
-vendor-independent hardware abstraction layer for all Cortex® processor based devices.
-CMSIS has been developed by Arm® in conjunction with silicon, tools and middleware
-partners.
-The idea behind CMSIS is to provide a consistent and simple software interface to the
-processor for interface peripherals, real-time operating systems, and middleware,
-simplifying software re -use, reducing the learning curve for new microcontroller
-developments and reducing the time to market for new devices.
-CMSIS library comes with ST firmware under \Drivers\CMSIS\.
-The CMSIS-DSP library includes:
-• Basic mathematical functions with vector operations
-• Fast mathematical functions, like sine and cosine
-• Complex mathematical functions like calculating magnitude
-• Filtering functions like FIR or IIR
-• Matrix computing functions
-• Transform functions like FFT
-• Controller functions like PID controller
-• Statistical functions like calculating minimum or maximum
-• Support functions like converting from one format to another
-• Interpolation functions
-
-
-
-FFT with Nucleo
-***************
-
-Algorithm
-=========
+Sampling and FFT algorithm
+**************************
 
 On cherche ici à calculer le spectre d’un signal analogique à l’aide d’une carte Nucléo.
 
@@ -97,10 +49,23 @@ Vient ensuite la partie calculatoire où ici on utilise un algorithme particulie
 Enfin, l’affichage se fait par l’intermédiaire d’un convertisseur numérique-analogique à un rythme de 1 échantillon toutes les 10us environ. Une première impulsion à 3.3V de durée 20us permet de synchroniser l’affichage. Puis les différentes valeurs du spectre sont régulièrement converties par le CNA.
 
 
+
+
+FFT with Nucleo
+***************
+
+
+http://lense.institutoptique.fr/nucleo-obtenir-le-spectre-dun-signal-en-temps-reel-4/
+
+
+
+Algorithm
+=========
+
+
+
 Creating an MBED6 project
 =========================
-
-
 
 
 CMSIS-DSP library

@@ -57,7 +57,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="generate.html">     Generate</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="process.html">     Process</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">     DSP basics</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">     DSP basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#data-types">Data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmsis-dsp-library">CMSIS-DSP library</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="proc_samp.html">     Sampling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_mean.html">     Moving Average</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_fir.html">     FIR Filters</a></li>
@@ -102,6 +106,36 @@
              
   <section id="signal-processing-digital-signal-processing">
 <span id="proc-dsp"></span><h1>Signal Processing / Digital Signal Processing<a class="headerlink" href="#signal-processing-digital-signal-processing" title="Link to this heading"></a></h1>
+<p>A <abbr title="Digital Signal Processor">DSP</abbr> is a specialized microprocessor designed to efficiently <strong>manipulate digital signals</strong> in real-time. It excels in tasks like filtering, modulation, and compression, crucial in audio, video, and telecommunications. Unlike general-purpose processors, DSPs are optimized for numerical calculations and possess dedicated hardware to accelerate signal processing algorithms.</p>
+<p>Some microcontrollers, like certain from the <em>STM32</em> family, include that kind of specific calculation core.</p>
+<p>For example, Arm® Cortex-M4 cores feature a Floating point unit (FPU) single precision which supports all Arm® single-precision data-processing instructions and data types. They also implement a full set of DSP instructions.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>To learn more about <em>signal processing</em>, I suggest you this ressource : <a class="reference external" href="https://www.analog.com/en/resources/technical-books/mixed_signal_dsp_design_book.html">Mixed Signal and DSP Design Techniques</a> produced by <em>Analog Devices</em>.
+And for those who lack time, this page : <a class="reference external" href="https://www.analog.com/en/lp/001/beginners-guide-to-dsp.html">Beginner’s guide to dsp</a> by <em>Analog Devices</em>.</p>
+<section id="data-types">
+<h2>Data types<a class="headerlink" href="#data-types" title="Link to this heading"></a></h2>
+<p>DSP operations use <strong>digital data</strong>, coming from the sampling of a signal in the case of signal processing. It can use either floating-point or fixed-point formats.</p>
+<p>Arm® Cortex-M4 cores contain a Floating point unit (FPU) single precision.</p>
+</section>
+<section id="cmsis-dsp-library">
+<h2>CMSIS-DSP library<a class="headerlink" href="#cmsis-dsp-library" title="Link to this heading"></a></h2>
+<p>To access to all the features on Arm® Cortex-M4 cores, Arm&amp;trade; in conjunction with silicon, tools and middleware partners developed a vendor-independent <strong>hardware abstraction layer</strong> for all Cortex® processor based devices, called the Arm® <strong>Cortex® Microcontroller Software Interface Standard</strong> (or <strong>CMSIS</strong>).</p>
+<p>The idea behind CMSIS is to provide a consistent and simple <a class="reference external" href="https://github.com/ARM-software/CMSIS_5">software interface</a> to the
+processor for interface peripherals, real-time operating systems, and middleware,
+simplifying software re -use, reducing the learning curve for new microcontroller
+developments and reducing the time to market for new devices.</p>
+<p>This hardware abstraction layer includes the <strong>CMSIS-DSP</strong> library that facilites the access to the DSP features of Arm® Cortex-M4 cores. This library includes especially :</p>
+<ul class="simple">
+<li><p>Fast mathematical functions, like sine and cosine</p></li>
+<li><p>Complex mathematical functions like calculating magnitude</p></li>
+<li><p>Filtering functions like FIR or IIR</p></li>
+<li><p>Transform functions like FFT</p></li>
+<li><p>Controller functions like PID controller</p></li>
+</ul>
+<p>You can download the latest version on the <a class="reference external" href="https://github.com/ARM-software/CMSIS-DSP">CMSIS-DSP GitHub repository</a>.</p>
+</section>
 </section>
 
 
