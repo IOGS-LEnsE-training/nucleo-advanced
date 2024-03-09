@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Signal Processing / Process &mdash; Nucleo Advanced 0.1 documentation</title>
+  <title>Signal Processing / Moving Average Filter &mdash; Nucleo Advanced 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../_static/css/lense-training.css?v=5fb7c9f9" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Signal Processing / Digital Filters" href="proc_filters.html" />
-    <link rel="prev" title="Signal Processing / Generate signals" href="generate.html" /> 
+    <link rel="next" title="Signal Processing / FIR Filters" href="proc_fir.html" />
+    <link rel="prev" title="Signal Processing / Digital Filters" href="proc_filters.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -56,9 +56,9 @@
 <p class="caption" role="heading"><span class="caption-text">Signal Processing</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="generate.html">     Generate</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">     Process</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="process.html">     Process</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="proc_filters.html">     Digital Filters Basics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="proc_mean.html">     Moving Average</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">     Moving Average</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_fir.html">     FIR Filters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_iir.html">     IIR Filters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="proc_fft.html">     Real-time FFT</a></li>
@@ -88,9 +88,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Signal Processing / Process</li>
+          <li class="breadcrumb-item"><a href="process.html">Signal Processing / Process</a></li>
+      <li class="breadcrumb-item active">Signal Processing / Moving Average Filter</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/contents/process.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/contents/proc_mean.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -98,31 +99,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="signal-processing-process">
-<h1>Signal Processing / Process<a class="headerlink" href="#signal-processing-process" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Digital Filters</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="proc_filters.html">     Digital Filters Basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="proc_mean.html">     Moving Average</a></li>
-<li class="toctree-l1"><a class="reference internal" href="proc_fir.html">     FIR Filters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="proc_iir.html">     IIR Filters</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Spectral Analysis</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="proc_fft.html">     Real-time FFT</a></li>
-</ul>
-</div>
+  <section id="signal-processing-moving-average-filter">
+<h1>Signal Processing / Moving Average Filter<a class="headerlink" href="#signal-processing-moving-average-filter" title="Link to this heading"></a></h1>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="generate.html" class="btn btn-neutral float-left" title="Signal Processing / Generate signals" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="proc_filters.html" class="btn btn-neutral float-right" title="Signal Processing / Digital Filters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="proc_filters.html" class="btn btn-neutral float-left" title="Signal Processing / Digital Filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="proc_fir.html" class="btn btn-neutral float-right" title="Signal Processing / FIR Filters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
