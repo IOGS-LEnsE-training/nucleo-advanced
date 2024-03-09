@@ -12,7 +12,7 @@ Signal Processing / Process
 
 .. toctree::
    :maxdepth: 1
-   :caption: Spectral Analysis
+   :caption: Digital Transforms
    
 	Real-time FFT<proc_fft>
    
