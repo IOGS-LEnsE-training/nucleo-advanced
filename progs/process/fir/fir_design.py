@@ -1,6 +1,7 @@
-from numpy import sin, arange, pi
-from scipy.signal import lfilter, firwin
+from numpy import sin, arange, pi, absolute
+from scipy.signal import lfilter, firwin, freqz
 from pylab import figure, plot, grid, show
+from matplotlib.pyplot import plot, xlabel, ylabel, title, ylim
 
 #------------------------------------------------
 # Create a signal for demonstration.
@@ -28,13 +29,27 @@ nyq_rate = sample_rate / 2.
 cutoff_hz = 2000.0
 
 # Length of the filter (number of coefficients, i.e. the filter order + 1)
-numtaps = 15
+numtaps = 41
 
 # Use firwin to create a lowpass FIR filter
 fir_coeff = firwin(numtaps, cutoff_hz/nyq_rate)
 
 # Use lfilter to filter the signal with the FIR filter
 filtered_signal = lfilter(fir_coeff, 1.0, signal)
+
+#------------------------------------------------
+# Plot the filter design.
+#------------------------------------------------
+
+figure(1)
+w, h = freqz(fir_coeff, worN=8000)
+plot((w/pi)*nyq_rate, absolute(h), linewidth=2)
+xlabel('Frequency (Hz)')
+ylabel('Gain')
+title('Frequency Response')
+ylim(-0.05, 1.05)
+grid(True)
+
 
 #------------------------------------------------
 # Plot the original and filtered signals.
@@ -46,7 +61,7 @@ warmup = numtaps - 1
 # The phase delay of the filtered signal
 delay = (warmup / 2) / sample_rate
 
-figure(1)
+figure(2)
 # Plot the original signal
 plot(t, signal)
 
